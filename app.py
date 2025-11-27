@@ -21,7 +21,6 @@ st.set_page_config(
 # Model loading (cached)
 # ---------------------------
 @st.cache_resource
-@st.cache_resource
 def load_nlp_model():
     """
     Load the spaCy English model.
