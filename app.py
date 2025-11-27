@@ -21,23 +21,18 @@ st.set_page_config(
 # Model loading (cached)
 # ---------------------------
 @st.cache_resource
+@st.cache_resource
 def load_nlp_model():
     """
     Load the spaCy English model.
-    Make sure 'en_core_web_sm' is installed.
+    If it's not installed, download it automatically.
     """
     try:
-        nlp_model = spacy.load("en_core_web_sm")
+        return spacy.load("en_core_web_sm")
     except OSError:
-        # If the model is not installed, show a clear message.
-        st.error(
-            "spaCy model 'en_core_web_sm' is not installed.\n\n"
-            "Run this in your terminal:\n"
-            "`python -m spacy download en_core_web_sm`"
-        )
-        st.stop()
-    return nlp_model
-
+        from spacy.cli import download
+        download("en_core_web_sm")
+        return spacy.load("en_core_web_sm")
 
 @st.cache_resource
 def load_embedding_model():
